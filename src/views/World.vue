@@ -15,6 +15,8 @@
   import OverlayActions from '../components/OverlayActions'
   import Rx from 'rxjs/Rx'
   import { mapState } from 'vuex'
+  import MainMenu from './menu/mainMenu'
+  import { SPACE } from '../utiles/arrowCode'
 
   let keyDowns = Rx.Observable.fromEvent(window, 'keydown')
   let keyUps = Rx.Observable.fromEvent(window, 'keyup')
@@ -32,7 +34,8 @@
     components: {
       OverlayActions,
       Grid,
-      Player
+      Player,
+      MainMenu
     },
     mounted () {
       // window.addEventListener('keydown', this.onKeyDown, false)
@@ -68,7 +71,8 @@
         player: {
           direction: 'down'
         },
-        lastPressedKeys: []
+        lastPressedKeys: [],
+        isMenuOpen: false,
       }
     },
     subscriptions () {
@@ -199,8 +203,12 @@
             console.log(this.nextCase)
             this.move('right', oldPos, 'xPos')
             break
+           case SPACE:
+            this.isMenuOpen = !this.isMenuOpen;
+            console.log(this.isMenuOpen);
           default:
             console.log('Unknown command')
+            this.isWalking = false
             break
         }
       },
